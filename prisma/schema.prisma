@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BusRoute {
+  routeId          Int               @id @default(autoincrement())
+  departureTown    String
+  arrivalTown      String
+  departureTime    DateTime
+  fare             Float
+  // Relations
+  busServiceRoutes BusServiceRoute[]
+  bookings         Booking[]
+}
+
+model BusService {
+  busId            Int               @id @default(autoincrement())
+  name             String
+  // Relations
+  busServiceRoutes BusServiceRoute[]
+  bookings         Booking[]
+}
+
+model BusServiceRoute {
+  busServiceRouteId Int        @id @default(autoincrement())
+  // Relations
+  busService        BusService @relation(fields: [busId], references: [busId])
+  busId             Int
+  busRoute          BusRoute   @relation(fields: [routeId], references: [routeId])
+  routeId           Int
+  bookings          Booking[]
+}
+
+model Seat {
+  seatId     Int     @id @default(autoincrement())
+  seatNumber Int
+  // Relations
+  bookingId  Int
+  booking    Booking @relation(fields: [bookingId], references: [bookingId])
+}
+
+model User {
+  userId       Int       @id @default(autoincrement())
+  userName     String    @unique
+  email        String    @unique
+  password     String
+  firstName    String
+  lastName     String
+  mobileNumber String
+  // Relations
+  bookings     Booking[]
+  payments     Payment[]
+}
+
+model Booking {
+  bookingId         Int             @id @default(autoincrement())
+  // Relations 
+  user              User            @relation(fields: [userId], references: [userId])
+  userId            Int
+  busServiceRoute   BusServiceRoute @relation(fields: [busServiceRouteId], references: [busServiceRouteId])
+  busServiceRouteId Int
+  seats             Seat[]
+  BusRoute          BusRoute?       @relation(fields: [busRouteRouteId], references: [routeId])
+  busRouteRouteId   Int?
+  BusService        BusService?     @relation(fields: [busServiceBusId], references: [busId])
+  busServiceBusId   Int?
+}
+
+model Payment {
+  paymentId     Int      @id @default(autoincrement())
+  amount        Float
+  paymentMethod String
+  paymentDate   DateTime
+  // Relations 
+  userId        Int
+  user          User     @relation(fields: [userId], references: [userId])
+}
