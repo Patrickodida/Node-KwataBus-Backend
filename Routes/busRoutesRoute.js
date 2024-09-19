@@ -5,4 +5,7 @@ const busRouteController = require('../Controllers/busRouteController');
 // Get busRoutes
 router.get("/", busRouteController.getAllBusRoutes);
 
+// Create busRoutes
+router.post("/", busRouteController.createBusRoute);
+
 module.exports = router;

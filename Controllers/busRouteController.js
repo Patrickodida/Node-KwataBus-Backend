@@ -19,7 +19,28 @@ const getAllBusRoutes = async (req, res) => {
     }
 }
 
+// Function to post a new bus route
+const createBusRoute = async (req, res) => {
+    try{
+        const { routeId, departureTown, arrivalTown, departureTime, fare } = req.body;
+        const newBusRoutes = await Prisma.busRoute.create({
+            data: {
+                routeId,
+                departureTown,
+                arrivalTown,
+                departureTime,
+                fare
+            }
+        })
+        res.status(StatusCodes.CREATED).json(newBusRoutes);
+    }catch(error){
+        console.error(error)
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Failed to create new bus route");
+    }
+}
+
 
 module.exports = {
-    getAllBusRoutes
+    getAllBusRoutes, 
+    createBusRoute
 }
