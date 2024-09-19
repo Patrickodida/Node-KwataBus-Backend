@@ -13,4 +13,8 @@ router.get("/:routeId", busRouteController.getBusRouteById);
 
 // Update busRoute by routeId
 router.put("/:routeId", busRouteController.updateBusRouteByRouteId);
+
+// Delete busRoute by routeId
+router.delete("/:routeId", busRouteController.deleteBusRouteByRouteId);
+
 module.exports = router;
