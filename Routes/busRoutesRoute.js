@@ -8,6 +8,9 @@ router.get("/", busRouteController.getAllBusRoutes);
 // Create busRoutes
 router.post("/", busRouteController.createBusRoute);
 
-// Get a specific busRoute by ID
+// Get a specific busRoute by routeId
 router.get("/:routeId", busRouteController.getBusRouteById);
+
+// Update busRoute by routeId
+router.put("/:routeId", busRouteController.updateBusRouteByRouteId);
 module.exports = router;

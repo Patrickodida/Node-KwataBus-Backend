@@ -39,7 +39,7 @@ const createBusRoute = async (req, res) => {
     }
 }
 
-// Function to retrieve a specific bus route by ID
+// Function to retrieve a specific bus route by routeId
 const getBusRouteById = async (req, res) => {
     const { routeId } = req.params;
     try{
@@ -58,8 +58,36 @@ const getBusRouteById = async (req, res) => {
         res.status(StatusCodes.BAD_REQUEST).send("Invalid bus route format")
     }
 }
+
+// Function to update a bus route by routeId
+const updateBusRouteByRouteId = async (req, res) => {
+    const { routeId } = req.params;
+    try{
+        const { departureTown, arrivalTown, departureTime, fare } = req.body;
+        const busRoute = await Prisma.busRoute.update({
+            where: {
+                routeId: parseInt(routeId)
+            },
+            data: {
+                departureTown,
+                arrivalTown,
+                departureTime,
+                fare
+            }
+        })
+        if(busRoute){
+            res.status(StatusCodes.OK).json(busRoute);
+        } else {
+            res.status(StatusCodes.NOT_FOUND).send("Bus route not found");
+        }
+    }catch(error){
+        console.error(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Failed to update bus route");
+    }
+}
 module.exports = {
     getAllBusRoutes, 
     createBusRoute,
-    getBusRouteById
+    getBusRouteById,
+    updateBusRouteByRouteId
 }
