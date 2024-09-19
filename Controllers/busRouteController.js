@@ -39,8 +39,27 @@ const createBusRoute = async (req, res) => {
     }
 }
 
-
+// Function to retrieve a specific bus route by ID
+const getBusRouteById = async (req, res) => {
+    const { routeId } = req.params;
+    try{
+        const busRoutes = await Prisma.busRoute.findUnique({
+            where: {
+                routeId: parseInt(routeId)
+            }
+        })
+        if(busRoutes){
+            res.status(StatusCodes.OK).json(busRoutes);
+        } else {
+            res.status(StatusCodes.NOT_FOUND).send("Bus route not found");
+        }
+    }catch(error){
+        console.error(error);
+        res.status(StatusCodes.BAD_REQUEST).send("Invalid bus route format")
+    }
+}
 module.exports = {
     getAllBusRoutes, 
-    createBusRoute
+    createBusRoute,
+    getBusRouteById
 }
