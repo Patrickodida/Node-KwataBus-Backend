@@ -14,32 +14,20 @@ datasource db {
 }
 
 model BusRoute {
-  routeId          Int               @id @default(autoincrement())
-  departureTown    String
-  arrivalTown      String
-  departureTime    DateTime
-  fare             Float
+  routeId       Int       @id @default(autoincrement())
+  departureTown String
+  arrivalTown   String
+  departureTime DateTime
+  fare          Float
   // Relations
-  busServiceRoutes BusServiceRoute[]
-  bookings         Booking[]
+  bookings      Booking[]
 }
 
 model BusService {
-  busId            Int               @id @default(autoincrement())
-  name             String
+  busId    Int       @id @default(autoincrement())
+  name     String
   // Relations
-  busServiceRoutes BusServiceRoute[]
-  bookings         Booking[]
-}
-
-model BusServiceRoute {
-  busServiceRouteId Int        @id @default(autoincrement())
-  // Relations
-  busService        BusService @relation(fields: [busId], references: [busId])
-  busId             Int
-  busRoute          BusRoute   @relation(fields: [routeId], references: [routeId])
-  routeId           Int
-  bookings          Booking[]
+  bookings Booking[]
 }
 
 model Seat {
@@ -64,17 +52,15 @@ model User {
 }
 
 model Booking {
-  bookingId         Int             @id @default(autoincrement())
+  bookingId    Int        @id @default(autoincrement())
   // Relations 
-  user              User            @relation(fields: [userId], references: [userId])
-  userId            Int
-  busServiceRoute   BusServiceRoute @relation(fields: [busServiceRouteId], references: [busServiceRouteId])
-  busServiceRouteId Int
-  seats             Seat[]
-  BusRoute          BusRoute?       @relation(fields: [busRouteRouteId], references: [routeId])
-  busRouteRouteId   Int?
-  BusService        BusService?     @relation(fields: [busServiceBusId], references: [busId])
-  busServiceBusId   Int?
+  user         User       @relation(fields: [userId], references: [userId])
+  userId       Int
+  BusRoute     BusRoute   @relation(fields: [busRouteId], references: [routeId])
+  busRouteId   Int
+  busService   BusService @relation(fields: [busServiceId], references: [busId])
+  busServiceId Int
+  seats        Seat[]
 }
 
 model Payment {
