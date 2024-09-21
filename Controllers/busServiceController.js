@@ -41,7 +41,30 @@ const createbusService = async (req, res) => {
   }
 };
 
+// Function to retrieve a service by busId
+const getBusServiceByBusId = async (req, res) => {
+  const { busId } = req.params;
+  try {
+    const busService = await Prisma.busService.findUnique({
+      where: {
+        busId: parseInt(busId),
+      },
+    });
+    if (busService) {
+      res.status(StatusCodes.OK).json(busService);
+    } else {
+      res.status(StatusCodes.NOT_FOUND).send("Bus service not found");
+    }
+  } catch (error) {
+    console.error(error);
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .send('Invalid bus service busId format');
+  }
+};
+
 module.exports = {
   getAllBusServices,
   createbusService,
+  getBusServiceByBusId,
 };

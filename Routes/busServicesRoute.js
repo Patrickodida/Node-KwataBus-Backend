@@ -10,4 +10,7 @@ router.get("/", busServicesController.getAllBusServices);
 // Create new Bus Service
 router.post("/", busServicesController.createbusService);
 
+// Get a specific bus service by busId
+router.get("/:busId", busServicesController.getBusServiceByBusId);
+
 module.exports = router;
