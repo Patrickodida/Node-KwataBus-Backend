@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const cors = require('cors');
 const busRoutesRouter = require('./Routes/busRoutesRoute');
+const busServicesRouter = require('./Routes/busServicesRoute');
 
 const app = express();
 
@@ -49,6 +50,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use("/api/v1/busRoutes", busRoutesRouter);
+app.use("/api/v1/busServices", busServicesRouter);
 
 // Use request handles based on the API endpoint
 app.get("/api/v1", (req, res)=>{
