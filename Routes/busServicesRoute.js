@@ -16,4 +16,7 @@ router.get("/:busId", busServicesController.getBusServiceByBusId);
 // Update a specific bus service by busId
 router.put("/:busId", busServicesController.updateBusServiceByBusId);
 
+// Delete a specific bus service by busId
+router.delete("/:busId", busServicesController.deleteBusServiceByBusId);
+
 module.exports = router;

@@ -89,9 +89,28 @@ const updateBusServiceByBusId = async (req, res) => {
   }
 };
 
+// Function to delete a specific bus service by busId
+const deleteBusServiceByBusId = async (req, res) => {
+  const { busId } = req.params;
+  try {
+    const busService = await Prisma.busService.delete({
+      where: {
+        busId: parseInt(busId),
+      },
+    });
+    res.status(StatusCodes.OK).json(busService);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .send("Failed to delete a specific bus service by busId");
+  }
+};
+
 module.exports = {
   getAllBusServices,
   createbusService,
   getBusServiceByBusId,
   updateBusServiceByBusId,
+  deleteBusServiceByBusId
 };
