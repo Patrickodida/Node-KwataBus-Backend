@@ -7,4 +7,7 @@ const busServicesController = require('../Controllers/busServiceController')
 // Get bus services
 router.get("/", busServicesController.getAllBusServices);
 
+// Create new Bus Service
+router.post("/", busServicesController.createbusService);
+
 module.exports = router;

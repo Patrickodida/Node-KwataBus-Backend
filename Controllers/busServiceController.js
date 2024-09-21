@@ -5,21 +5,43 @@ const Prisma = new PrismaClient();
 
 // Function to get all bus services
 const getAllBusServices = async (req, res) => {
-    console.log(req.query);
-    try{
-        // Check if the 'results' query parameter exists and is a valid number
-        const limit = req.query.results ? parseInt(req.query.results) : undefined;
-        const busServices = await Prisma.busService.findMany({
-            // Apply limit if it is defined
-            take: limit,
-        })
-        res.status(StatusCodes.OK).json(busServices);
-    }catch(error){
-        console.error(error);
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error Fetching bus services");
-    }
-}
+  console.log(req.query);
+  try {
+    // Check if the 'results' query parameter exists and is a valid number
+    const limit = req.query.results ? parseInt(req.query.results) : undefined;
+    const busServices = await Prisma.busService.findMany({
+      // Apply limit if it is defined
+      take: limit,
+    });
+    res.status(StatusCodes.OK).json(busServices);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .send("Error Fetching bus services");
+  }
+};
+
+// Create a bus service
+const createbusService = async (req, res) => {
+  try {
+    const { busId, name } = req.body;
+    const newBusService = await Prisma.busService.create({
+      data: {
+        busId,
+        name,
+      },
+    });
+    res.status(StatusCodes.CREATED).json(newBusService);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .send("Failed to create a new bus service");
+  }
+};
 
 module.exports = {
-    getAllBusServices,
-}
+  getAllBusServices,
+  createbusService,
+};
