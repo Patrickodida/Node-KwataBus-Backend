@@ -41,7 +41,7 @@ const createbusService = async (req, res) => {
   }
 };
 
-// Function to retrieve a service by busId
+// Function to retrieve a bus service by busId
 const getBusServiceByBusId = async (req, res) => {
   const { busId } = req.params;
   try {
@@ -63,8 +63,35 @@ const getBusServiceByBusId = async (req, res) => {
   }
 };
 
+// Function to update a bus service by busId
+const updateBusServiceByBusId = async (req, res) => {
+  const { busId } = req.params;
+  try {
+    const { busId, name } = req.body;
+    const busService = await Prisma.busService.update({
+      where: {
+        busId: parseInt(busId),
+      },
+      data: {
+        name,
+      },
+    });
+    if (busService) {
+      res.status(StatusCodes.OK).json(busService);
+    } else {
+      res.status(StatusCodes.NOT_FOUND).send("Bus service not found");
+    }
+  } catch (error) {
+    console.error(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .send("Failed to update bus service");
+  }
+};
+
 module.exports = {
   getAllBusServices,
   createbusService,
   getBusServiceByBusId,
+  updateBusServiceByBusId,
 };

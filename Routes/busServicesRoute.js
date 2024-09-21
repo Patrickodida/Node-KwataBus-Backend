@@ -13,4 +13,7 @@ router.post("/", busServicesController.createbusService);
 // Get a specific bus service by busId
 router.get("/:busId", busServicesController.getBusServiceByBusId);
 
+// Update a specific bus service by busId
+router.put("/:busId", busServicesController.updateBusServiceByBusId);
+
 module.exports = router;
