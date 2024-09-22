@@ -10,6 +10,9 @@ router.get("/", seatController.getAllSeats);
 // Create seat
 router.post("/", seatController.createSeat);
 
+// Reserve/book a specific seat
+router.post("/book", seatController.bookSeat); // Handle booking a seat
+
 // Free up a previously booked seat
 router.post("/release", seatController.releaseSeat);
 
