@@ -4,6 +4,7 @@ const path = require("node:path");
 const cors = require('cors');
 const busRoutesRouter = require('./Routes/busRoutesRoute');
 const busServicesRouter = require('./Routes/busServicesRoute');
+const seatsRouter = require("./Routes/seatsRoute");
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/v1/busRoutes", busRoutesRouter);
 app.use("/api/v1/busServices", busServicesRouter);
+app.use("/api/v1/seats", seatsRouter);
 
 // Use request handles based on the API endpoint
 app.get("/api/v1", (req, res)=>{
