@@ -10,4 +10,7 @@ router.get("/", seatController.getAllSeats);
 // Create seat
 router.post("/", seatController.createSeat);
 
+// Free up a previously booked seat
+router.post("/release", seatController.releaseSeat);
+
 module.exports = router;

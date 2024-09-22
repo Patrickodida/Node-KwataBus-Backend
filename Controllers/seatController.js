@@ -47,7 +47,7 @@ const bookSeat = async (req, res)=>{
         seatId
       },
       data:{
-        // Seat the seats bookingId to the one provided
+        // Set the seats bookingId to the one provided
         bookingId
       }
     })
@@ -58,8 +58,25 @@ const bookSeat = async (req, res)=>{
   }
 }
 
+// Function to release a seat (free up a previously booked seat)
+const releaseSeat = async (req, res) => {
+  try {
+    const { seatId } = req.body;
+    const seat = await Prisma.seat.update({
+      where: { seatId },
+      data: {
+        bookingId: null, // Remove the bookingId to mark the seat as available
+      },
+    });
+    res.status(StatusCodes.OK).json({ message: "Seat released successfully", seat });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error releasing seat");
+  }
+};
+
 module.exports = {
     getAllSeats,
     createSeat,
     bookSeat,
+    releaseSeat,
 }
