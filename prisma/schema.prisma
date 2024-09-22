@@ -31,11 +31,11 @@ model BusService {
 }
 
 model Seat {
-  seatId     Int     @id @default(autoincrement())
+  seatId     Int      @id @default(autoincrement())
   seatNumber Int
   // Relations
-  bookingId  Int
-  booking    Booking @relation(fields: [bookingId], references: [bookingId])
+  bookingId  Int?
+  booking    Booking? @relation(fields: [bookingId], references: [bookingId])
 }
 
 model User {

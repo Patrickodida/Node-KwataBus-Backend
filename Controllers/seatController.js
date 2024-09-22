@@ -21,6 +21,23 @@ const getAllSeats = async (req, res) => {
   }
 };
 
+// Function to create new seat
+const createSeat = async (req, res)=>{
+    try{
+        const { seatNumber } = req.body;
+        const newSeat = await Prisma.seat.create({
+            data:{
+                seatNumber
+            }
+        })
+        res.status(StatusCodes.CREATED).json(newSeat);
+    }catch(error){
+        console.error(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Failed to create a new seat");
+    }
+}
+
 module.exports = {
     getAllSeats,
+    createSeat,
 }

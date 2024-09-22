@@ -7,4 +7,7 @@ const seatController = require('../Controllers/seatController');
 // Get seats
 router.get("/", seatController.getAllSeats);
 
+// Create seat
+router.post("/", seatController.createSeat);
+
 module.exports = router;
