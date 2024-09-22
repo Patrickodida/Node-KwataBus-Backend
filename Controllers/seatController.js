@@ -30,6 +30,7 @@ const createSeat = async (req, res)=>{
                 seatNumber
             }
         })
+        console.log(newSeat)
         res.status(StatusCodes.CREATED).json(newSeat);
     }catch(error){
         console.error(error);
@@ -37,7 +38,28 @@ const createSeat = async (req, res)=>{
     }
 }
 
+// Function to book a seat (reserve a specific seat for a booking)
+const bookSeat = async (req, res)=>{
+  try{
+    const { seatId, bookingId } = req.body;
+    const seat = await Prisma.seat.update({
+      where:{
+        seatId
+      },
+      data:{
+        // Seat the seats bookingId to the one provided
+        bookingId
+      }
+    })
+    res.status(StatusCodes.OK).json({message:"Seat reserved successfully!",seat});
+  }catch(error){
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error reserving seat");
+  }
+}
+
 module.exports = {
     getAllSeats,
     createSeat,
+    bookSeat,
 }
