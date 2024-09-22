@@ -74,9 +74,26 @@ const releaseSeat = async (req, res) => {
   }
 };
 
+// Function to get seat by bookingId (retrieve seat details associated with a booking)
+const getSeatByBookingId = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+    const seat = await Prisma.seat.findMany({
+      where: { bookingId: parseInt(bookingId) },
+    });
+    if (!seat || seat.length === 0) {
+      return res.status(StatusCodes.NOT_FOUND).send("No seat found for this booking");
+    }
+    res.status(StatusCodes.OK).json(seat);
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error fetching seat by booking ID");
+  }
+};
+
 module.exports = {
     getAllSeats,
     createSeat,
     bookSeat,
     releaseSeat,
+    getSeatByBookingId
 }
