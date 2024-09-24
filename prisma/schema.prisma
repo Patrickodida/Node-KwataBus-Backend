@@ -49,6 +49,7 @@ model User {
   // Relations
   bookings     Booking[]
   payments     Payment[]
+  role         Role      @default(SuperAdmin)
 }
 
 model Booking {
@@ -71,4 +72,10 @@ model Payment {
   // Relations 
   userId        Int
   user          User     @relation(fields: [userId], references: [userId])
+}
+
+enum Role {
+  SuperAdmin
+  Subscriber
+  editor
 }

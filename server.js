@@ -6,6 +6,7 @@ const busRoutesRouter = require('./Routes/busRoutesRoute');
 const busServicesRouter = require('./Routes/busServicesRoute');
 const seatsRouter = require("./Routes/seatsRoute");
 const bookingsRouter = require("./Routes/bookingsRouter");
+const usersRouter = require("./Routes/usersRoute");
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use("/api/v1/busRoutes", busRoutesRouter);
 app.use("/api/v1/busServices", busServicesRouter);
 app.use("/api/v1/seats", seatsRouter);
 app.use("/api/v1/bookings", bookingsRouter);
+app.use("/api/v1/users", usersRouter);
 
 // Use request handles based on the API endpoint
 app.get("/api/v1", (req, res)=>{
