@@ -10,5 +10,8 @@ router.post("/initiate", paymentController.initiatePayment);
 // Retrieve payment history
 router.get("/history/:userId", paymentController.getPaymentHistory);
 
+// Confirm payment
+router.put("/confirm/:paymentId", paymentController.confirmPayment);
+
 module.exports = router;
 

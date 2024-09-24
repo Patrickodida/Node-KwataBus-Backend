@@ -42,8 +42,39 @@ const getPaymentHistory = async (req, res) => {
   }
 };
 
+// Function to confirm a payment
+const confirmPayment = async (req, res) => {
+  try {
+    const { paymentId } = req.params;
+
+    // Find the payment first
+    const payment = await Prisma.payment.findUnique({
+      where: { paymentId: parseInt(paymentId) },
+    });
+
+    // If payment not found, return a 404 error
+    if (!payment) {
+      return res.status(StatusCodes.NOT_FOUND).json({ message: "Payment not found" });
+    }
+
+    // Update the payment date to now, indicating confirmation
+    const updatedPayment = await Prisma.payment.update({
+      where: { paymentId: parseInt(paymentId) },
+      data: {
+        paymentDate: new Date(), // Set payment date to the current date/time
+      },
+    });
+
+    res.status(StatusCodes.OK).json({ message: "Payment confirmed", payment: updatedPayment });
+  } catch (error) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error confirming payment" });
+  }
+};
+
 
 module.exports = {
     initiatePayment,
-    getPaymentHistory
+    getPaymentHistory,
+    confirmPayment,
 }
