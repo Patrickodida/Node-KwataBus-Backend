@@ -19,7 +19,41 @@ const busRouteSchema = Joi.object({
     fare: Joi.number().min(1000).max(9999999)
 });
 
+// busService Schema
+const busServiceSchema = Joi.object({
+    busId: Joi.number().integer().required(),
+    name: Joi.string().min(3).max(30).required()
+});
+
+// booking Schema
+const bookingSchema = Joi.object({
+    userId: Joi.number().integer().required(),
+    busRouteId: Joi.number().integer().required(),
+    busServiceId: Joi.number().integer().required(),
+    seatIds: Joi.array().items(Joi.number().integer()).required(),
+    paymentDetails: Joi.object({
+        amount: Joi.number().required(),
+        paymentMethod: Joi.string().required()
+    }).required()
+});
+
+// seat Schema
+const seatSchema = Joi.object({
+    seatNumber: Joi.number().integer().required()
+});
+
+// Payment Schema
+const paymentSchema = Joi.object({
+    amount: Joi.number().min(1000).max(9999999),
+    paymentMethod: Joi.string().min(4).max(15).required(),
+    paymentDate: Joi.date().iso().required()
+})
+
 module.exports = {
     userSchema,
     busRouteSchema,
+    busServiceSchema,
+    bookingSchema,
+    seatSchema,
+    paymentSchema
 }

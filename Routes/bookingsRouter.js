@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const validator = require('../Utils/joi.validator');
-const { busRouteSchema } = require('../Utils/joi.schemas');
+const { bookingSchema } = require('../Utils/joi.schemas');
 const bookingController = require('../Controllers/bookingController');
 
 // Create a new booking
-router.post("/", bookingController.createBooking);
+router.post("/", validator(bookingSchema), bookingController.createBooking);
 
 // Get booking by ID
 router.get("/:bookingId", bookingController.getBookingById);

@@ -8,6 +8,14 @@ const createBooking = async (req, res) => {
   try {
     const { userId, busRouteId, busServiceId, seatIds, paymentDetails } =
       req.body;
+
+      // Validate that userId is present and valid
+    if (!userId) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .send("User ID is required.");
+    }
+    
       // Check if the user exists
     const userExists = await Prisma.user.findUnique({
       where: {
@@ -32,6 +40,7 @@ const createBooking = async (req, res) => {
         },
       },
     });
+
     // Create payment details for a bookig
     const newPayment = await Prisma.payment.create({
       data: {
