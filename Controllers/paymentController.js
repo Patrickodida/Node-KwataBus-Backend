@@ -72,9 +72,36 @@ const confirmPayment = async (req, res) => {
   }
 };
 
+// Function to process refunds for cancelled bookings
+const refundPayment = async (req, res) => {
+  try {
+    const { paymentId, amount } = req.body;
+
+    // Process refund
+    const payment = await Prisma.payment.findUnique({
+      where: { paymentId: parseInt(paymentId) },
+    });
+
+    if (!payment) {
+      return res.status(StatusCodes.NOT_FOUND).json({ message: "Payment not found" });
+    }
+
+    // Create a refund or update the payment
+    await Prisma.payment.update({
+      where: { paymentId: parseInt(paymentId) },
+      data: { amount: payment.amount - amount }, // Adjusting the payment amount
+    });
+
+    res.status(StatusCodes.OK).json({ message: "Refund processed successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error processing refund" });
+  }
+};
 
 module.exports = {
     initiatePayment,
     getPaymentHistory,
     confirmPayment,
+    refundPayment
 }

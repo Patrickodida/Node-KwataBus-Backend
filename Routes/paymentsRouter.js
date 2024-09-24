@@ -13,5 +13,8 @@ router.get("/history/:userId", paymentController.getPaymentHistory);
 // Confirm payment
 router.put("/confirm/:paymentId", paymentController.confirmPayment);
 
+// Refund Payment
+router.post("/refund", paymentController.refundPayment);
+
 module.exports = router;
 
